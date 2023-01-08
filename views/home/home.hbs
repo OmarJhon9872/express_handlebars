@@ -1,1 +1,17 @@
-<h3>Hola mundo desde handlebars</h3>
+{{>partial_example}}
+
+<h3>Hola {{nombre}}</h3>
+<i>Variable local: {{variable_local}}</i><br>
+{{#if variable_local}}
+Si hay variable definida
+{{/if}}
+<br><br>
+<b>Paises visitados</b>
+<hr>
+<ul>
+{{#each paises }}
+    <li>{{@index}} - {{this.nombre}} - <i>{{this.nic}}</i></li>
+{{/each }}
+</ul>
+<h5>Helpers</h5>
+{{#calcular 12 32}} {{/calcular}}
