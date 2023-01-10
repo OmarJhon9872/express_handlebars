@@ -1,13 +1,38 @@
 const express = require('express');
 const router = require('./routes/rutas');
 const app = express();
+const csrf = require('csurf');
 
+// #########################################
+// Middleware para recibir datos de formularios
+app.use(express.urlencoded({extended: true}));
+
+// #########################################
+// Configuracion de sesiones
+const session = require('express-session');
+app.use(session({
+    secret: "12312321321321312",
+    resave: false,
+    saveUninitialized: false,
+    name: "secret-name",
+    cookie: {
+        expires: 600000
+    }
+}));
+
+// #########################################
+// Configuracion CSRF
+app.use(csrf()); //Aparte en variables locales se configura token
+
+// #########################################
 // Variables locales
 app.use( (req, res, next)=> {
     res.locals.variable_local = "Creada desde del index";
+    res.locals.csrfToken = req.csrfToken();
     next();
 });
 
+// #########################################
 // Para paginas web estaticas
 app.use(express.static(__dirname + '/assets'));
 
@@ -23,13 +48,20 @@ const hbs = create({
 // Configuracion de motor de plantillas handlebar
 app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
+
+// Cache en las vistas
+// app.enable('view cache');
 app.set('views', './views')
 // #########################################
 
+// Rutas
 app.use(router);
+// Si se pasa por parametro la variable layout en false descarta
+// el layout de "views/layouts/main_layout.hbs"
 app.use( (req, res) => {
     res.status(404).render('errors/404', {
-        tituloPagina: "Pagina no encontrada"
+        tituloPagina: "Pagina no encontrada",
+        layout: false
     });
 })
 
