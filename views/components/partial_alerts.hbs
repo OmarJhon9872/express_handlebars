@@ -1,0 +1,9 @@
+{{#if mensajeFlash}}
+    <div class="alert alert-{{cssFlash}}">
+        <ul>
+            {{#each mensajeFlash}}
+                <li>{{this.msg}}</li>
+            {{/each}}
+        </ul>
+    </div>
+{{/if}}

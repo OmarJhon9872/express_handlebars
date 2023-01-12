@@ -1,0 +1,13 @@
+<h1>Formulario Upload</h1>
+
+{{>partial_alerts}}
+
+<form action="/formularios/upload?_csrf={{csrfToken}}" method="post" class="my-3" enctype="multipart/form-data">
+    
+    <div class="my-3">
+        <label for="foto">Foto</label>
+        <input type="file" name="foto" id="foto" class="form-control" >
+    </div>
+    <hr>
+    <button class="btn btn-info text-white btn-lg">Enviar</button>
+</form>

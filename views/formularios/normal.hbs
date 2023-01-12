@@ -1,10 +1,12 @@
 <h1>Formulario Simple</h1>
 
-<form action="" method="post" class="my-3">
+{{>partial_alerts}}
+
+<form action="/formularios/normal" method="post" class="my-3">
     <input type="hidden" name="_csrf" id="_csrf" value="{{csrfToken}}">
     <div class="my-3">
         <label for="nombre">Nombre</label>
-        <input type="text" name="nombre" id="nombre" class="form-control">
+        <input type="text" name="nombre" id="nombre" class="form-control" >
     </div>
 
     <div class="my-3">

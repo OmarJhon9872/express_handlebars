@@ -3,6 +3,11 @@ const router = require('./routes/rutas');
 const app = express();
 const csrf = require('csurf');
 
+// Sesiones flash para mostrar ayuda en formularios erroneos
+const flash = require('connect-flash');
+// Iniciamos variables de session flash
+app.use(flash());//Aparte en variables locales se configura token (abajo)
+
 // #########################################
 // Middleware para recibir datos de formularios
 app.use(express.urlencoded({extended: true}));
@@ -22,13 +27,18 @@ app.use(session({
 
 // #########################################
 // Configuracion CSRF
-app.use(csrf()); //Aparte en variables locales se configura token
+app.use(csrf({
+    cookie: false,
+})); //Aparte en variables locales se configura token (abajo)
 
 // #########################################
 // Variables locales
 app.use( (req, res, next)=> {
     res.locals.variable_local = "Creada desde del index";
     res.locals.csrfToken = req.csrfToken();
+
+    res.locals.cssFlash = req.flash('cssFlash')
+    res.locals.mensajeFlash = req.flash('mensajeFlash')
     next();
 });
 
